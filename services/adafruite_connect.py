@@ -4,9 +4,9 @@ import random
 import time
 
 
-AIO_USERNAME = "lena5415"
-AIO_KEY = "aio_RnGn51Rgxgf0IaTnCCDXRPmYKYxQ"
-AIO_FEED_ID = "button2"  # Example feed name
+AIO_USERNAME = "tungnluong04"
+AIO_KEY = "aio_OytL29CGRe4aS5l62rZPLGTrMEkZ"
+AIO_FEED_ID = "bbc_led"  # Example feed name
 
 def connected(client):
     print("Ket noi thanh cong ...")
@@ -32,7 +32,7 @@ client.connect()
 client.loop_background()
 
 while True:
-    value = random.randint (0 , 1)
+    value = random.randint (0 , 2)
     print("Cap nhat :", value )
     client.publish (AIO_FEED_ID, value )
     time.sleep (5)
