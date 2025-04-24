@@ -1,38 +1,46 @@
-import sys
 from Adafruit_IO import MQTTClient
-import random
-import time
+from dotenv import load_dotenv
+import os
+import sys
 
+load_dotenv()
+AIO_USERNAME = os.getenv('AIO_USERNAME')
+AIO_KEY = os.getenv('AIO_KEY')
+FEEDS = ['button1', 'button2', 'button3', 'button4', 'button5', 'sensor1', 'sensor2', 'sensor3']
 
-AIO_USERNAME = "lena5415"
-AIO_KEY = "aio_RnGn51Rgxgf0IaTnCCDXRPmYKYxQ"
-AIO_FEED_ID = "button2"  # Example feed name
-
+# Callback sẽ được định nghĩa từ file app.py
+on_message_callback = None
+socketio = None
+subscribe_mid_map = {}
 def connected(client):
-    print("Ket noi thanh cong ...")
-    client.subscribe(AIO_FEED_ID)
+    print("Ket noi Adafruit thanh cong")
+    for feed in FEEDS:
+        client.subscribe(feed)
 
-def subscribe(client , userdata , mid , granted_qos):
-    print("Subscribe thanh cong ...")
+def subscribe(client, userdata, mid, granted_qos):
+    print("Subscribed thanh cong vao feed")
 
 def disconnected(client):
-    print("Ngat ket noi ...")
-    sys.exit (1)
+    print("Mat ket noi MQTT")
+    sys.exit(1)
 
-def message(client , feed_id , payload):
-    print("Nhan du lieu từ feed {AIO_FEED_ID}: " + payload)
+def message(client, feed_id, payload):
+    print(f"Nhan gia tri tu {feed_id}: {payload}")
+    if on_message_callback:
+        on_message_callback(feed_id, payload)
 
+# Tạo một hàm để khởi động MQTT
+def start_mqtt(socketio_instance, message_callback):
+    global on_message_callback, socketio
 
-client = MQTTClient(AIO_USERNAME , AIO_KEY)
-client.on_connect = connected
-client.on_disconnect = disconnected
-client.on_message = message
-client.on_subscribe = subscribe
-client.connect()
-client.loop_background()
+    on_message_callback = message_callback
+    socketio = socketio_instance
 
-while True:
-    value = random.randint (0 , 1)
-    print("Cap nhat :", value )
-    client.publish (AIO_FEED_ID, value )
-    time.sleep (5)
+    client = MQTTClient(AIO_USERNAME, AIO_KEY)
+    client.on_connect = connected
+    client.on_disconnect = disconnected
+    client.on_message = message
+    client.on_subscribe = subscribe
+
+    client.connect()
+    client.loop_background()

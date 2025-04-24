@@ -11,5 +11,5 @@ class Config:
     DB_NAME = os.getenv("DB_NAME")
     SECRET_KEY = os.getenv("SECRET_KEY")
 
-    ADA_IO_USERNAME = os.getenv("ADA_IO_USERNAME")
-    ADA_IO_KEY = os.getenv("ADA_IO_KEY")
+    AIO_USERNAME = os.getenv("AIO_USERNAME")
+    AIO_KEY = os.getenv("AIO_KEY")

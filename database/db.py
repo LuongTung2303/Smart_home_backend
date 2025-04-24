@@ -2,7 +2,7 @@ import mysql.connector
 from config import Config
 
 
-def get_db_connection():
+def get_connection():
     connection = mysql.connector.connect(
         host=Config.DB_HOST,
         port=Config.DB_PORT,

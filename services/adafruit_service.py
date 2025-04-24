@@ -1,14 +1,16 @@
-from config import Config
 import requests
 from flask import jsonify
+from config import Config
 
-BASE_URL = f"https://io.adafruit.com/api/v2/{Config.ADA_IO_USERNAME}/feeds"
+AIO_USERNAME = Config.AIO_USERNAME
+AIO_KEY = Config.AIO_KEY
 
-def send_data(data):
-    headers = {"X-AIO-Key": Config.ADA_IO_KEY, "Content-Type": "application/json"}
-    response = requests.post(f"{BASE_URL}/{data['feed']}/data", headers=headers, json={"value": data['value']})
+BASE_URL = f"https://io.adafruit.com/api/v2/{AIO_USERNAME}/feeds"
+
+def send_data(data,feed_name):
+    headers = {"X-AIO-Key": AIO_KEY, "Content-Type": "application/json"}
+    response = requests.post(f"{BASE_URL}/{feed_name}/data", headers=headers, json={"value": data['value']})
+    print(response.status_code)
+    print(response.text)
     return jsonify(response.json()), response.status_code
 
-def get_data():
-    # Placeholder: bạn có thể thêm lấy dữ liệu từ feed cụ thể
-    return jsonify({'message': 'Get data placeholder'})
