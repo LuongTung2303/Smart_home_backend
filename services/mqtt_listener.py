@@ -6,7 +6,7 @@ import sys
 load_dotenv()
 AIO_USERNAME = os.getenv('AIO_USERNAME')
 AIO_KEY = os.getenv('AIO_KEY')
-FEEDS = ['button1', 'button2', 'button3', 'button4', 'button5', 'sensor1', 'sensor2', 'sensor3']
+FEEDS = ['button1', 'button2', 'button3', 'button4', 'button5', 'sensor1', 'sensor2', 'sensor3', 'sensor4']
 
 # Callback sẽ được định nghĩa từ file app.py
 on_message_callback = None
