@@ -1,5 +1,6 @@
 from Adafruit_IO import MQTTClient
 from dotenv import load_dotenv
+from database.db import get_connection
 import os
 import sys
 
