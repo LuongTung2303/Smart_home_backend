@@ -7,7 +7,7 @@ import sys
 load_dotenv()
 AIO_USERNAME = os.getenv('AIO_USERNAME')
 AIO_KEY = os.getenv('AIO_KEY')
-FEEDS = ['button1', 'button2', 'button3', 'button4', 'button5', 'sensor1', 'sensor2', 'sensor3', 'sensor4']
+FEEDS = ['button1', 'button2', 'button3', 'button4', 'button5', 'sensor1', 'sensor2', 'sensor3', 'sensor4', 'lock']
 
 # Callback sẽ được định nghĩa từ file app.py
 on_message_callback = None
@@ -26,7 +26,18 @@ def disconnected(client):
     sys.exit(1)
 
 def message(client, feed_id, payload):
-    print(f"Nhan gia tri tu {feed_id}: {payload}")
+    match feed_id:
+        case 'button1': name = 'air_condition'
+        case 'button2': name = 'led1'
+        case 'button3': name = 'led2'
+        case 'button4': name = 'led3'
+        case 'button5': name = 'led4'
+        case 'sensor1': name = 'temp'
+        case 'sensor2': name = 'humd'
+        case 'sensor3': name = 'slot'
+        case 'sensor4': name = 'rfid'
+        case 'lock': name = 'door'
+    print(f"Nhan gia tri tu {name}: {payload}")
     if on_message_callback:
         on_message_callback(feed_id, payload)
 
