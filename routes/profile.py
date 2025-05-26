@@ -4,20 +4,18 @@ from utils.decorators import token_required
 
 profile_bp = Blueprint('profile', __name__)
 
-@profile_bp.route('/update', methods=['PUT'])
+@profile_bp.route('/update/<int:user_id>', methods=['PUT'])
 @token_required
-def update():
+def update(user_id):
     data = request.get_json()
-    return update_user_infor(data)
+    return update_user_infor(user_id, data)
 
-@profile_bp.route('/delete', methods=['DELETE'])
+@profile_bp.route('/delete/<int:user_id>', methods=['DELETE'])
 @token_required
-def delete():
-    data = request.get_json()
-    return delete_user(data)
+def delete(user_id):
+    return delete_user(user_id)
 
-@profile_bp.route('/get', methods=['GET'])
+@profile_bp.route('/get/<int:user_id>', methods=['GET'])
 @token_required
-def get():
-    data = request.get_json()
-    return get_user_infor(data)
+def get(user_id):
+    return get_user_infor(user_id)
